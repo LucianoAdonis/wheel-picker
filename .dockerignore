@@ -1,0 +1,5 @@
+*.md
+.git
+.gitignore
+kubernetes-deployment.yaml
+README.md

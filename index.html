@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who to Blame Today? 🎯</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Disney+ Core Colors */
+            --disney-blue-dark: #040714;
+            --disney-blue-deep: #0E0B14;
+            --disney-blue-primary: #0063e5;
+            --disney-blue-bright: #4BA3FF;
+            --disney-purple-accent: #8A4FFF;
+            --disney-white: #f9f9f9;
+            --disney-gray: #cacaca;
+            --disney-gray-dark: #6c6c6c;
+
+            /* Wheel Segment Colors */
+            --segment-1: #0063e5;
+            --segment-2: #1E5ACC;
+            --segment-3: #4BA3FF;
+            --segment-4: #8A4FFF;
+            --segment-5: #5E3AA0;
+            --segment-6: #00A8E1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--disney-blue-dark);
+            background-image:
+                radial-gradient(circle at 50% 50%, rgba(6, 99, 229, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 79, 255, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Starfield background */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(1px 1px at 25% 45%, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(2px 2px at 50% 70%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.25), transparent),
+                radial-gradient(1px 1px at 85% 60%, rgba(255, 255, 255, 0.15), transparent),
+                radial-gradient(1px 1px at 40% 10%, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(2px 2px at 90% 85%, rgba(255, 255, 255, 0.35), transparent),
+                radial-gradient(1px 1px at 15% 75%, rgba(255, 255, 255, 0.25), transparent);
+            background-size: 300px 300px, 400px 400px, 350px 350px, 450px 450px, 380px 380px, 420px 420px, 360px 360px, 390px 390px;
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 200px 50px, 100px 200px, 250px 150px, 50px 300px;
+            animation: starfieldTwinkle 60s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes starfieldTwinkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.4; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 0.5rem;
+            max-width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 0.5rem;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 700;
+            color: var(--disney-white);
+            text-shadow:
+                0 0 15px rgba(6, 99, 229, 0.5),
+                0 0 30px rgba(6, 99, 229, 0.3),
+                0 4px 12px rgba(0, 0, 0, 0.6);
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.03em;
+            animation: titlePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% {
+                text-shadow:
+                    0 0 15px rgba(6, 99, 229, 0.5),
+                    0 0 30px rgba(6, 99, 229, 0.3),
+                    0 4px 12px rgba(0, 0, 0, 0.6);
+            }
+            50% {
+                text-shadow:
+                    0 0 20px rgba(6, 99, 229, 0.7),
+                    0 0 40px rgba(6, 99, 229, 0.4),
+                    0 4px 12px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.7rem, 2vw, 1rem);
+            font-weight: 500;
+            color: var(--disney-gray);
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: min(70vw, 55vh, 500px);
+            height: min(70vw, 55vh, 500px);
+            margin: 0 auto 1rem;
+        }
+
+        /* Pointer/Arrow */
+        .pointer {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 50px solid var(--disney-blue-primary);
+            filter: drop-shadow(0 4px 8px rgba(6, 99, 229, 0.6))
+                    drop-shadow(0 0 15px rgba(6, 99, 229, 0.4));
+            z-index: 10;
+            animation: pointerBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes pointerBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-6px); }
+        }
+
+        .pointer::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--disney-blue-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(6, 99, 229, 0.8);
+        }
+
+        /* Wheel - using canvas */
+        .wheel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 8px rgba(6, 99, 229, 0.2),
+                0 0 40px rgba(6, 99, 229, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.9);
+            transition: transform 6s cubic-bezier(0.17, 0.67, 0.2, 0.98);
+            cursor: pointer;
+        }
+
+        /* Button */
+        .spin-button {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 0.9rem 2.5rem;
+            background: linear-gradient(135deg, var(--disney-blue-primary) 0%, var(--disney-blue-bright) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow:
+                0 8px 24px rgba(6, 99, 229, 0.4),
+                0 0 30px rgba(6, 99, 229, 0.25),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.3),
+                inset 0 2px 8px rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spin-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .spin-button:hover::before {
+            left: 100%;
+        }
+
+        .spin-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 32px rgba(6, 99, 229, 0.6),
+                0 0 50px rgba(6, 99, 229, 0.4),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.3),
+                inset 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .spin-button:active {
+            transform: translateY(-1px);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Popup Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, var(--disney-blue-deep) 0%, rgba(6, 99, 229, 0.15) 100%);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            max-width: 600px;
+            width: 90%;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.9),
+                0 0 0 1px rgba(6, 99, 229, 0.4),
+                0 0 40px rgba(6, 99, 229, 0.2),
+                inset 0 0 60px rgba(6, 99, 229, 0.03);
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(6, 99, 229, 0.08) 0%, transparent 70%);
+            animation: modalGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes modalGlow {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(5%, 5%) scale(1.05); opacity: 0.5; }
+        }
+
+        .modal-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            color: var(--disney-blue-bright);
+            text-shadow:
+                0 0 20px rgba(75, 163, 255, 0.5),
+                0 4px 12px rgba(0, 0, 0, 0.6);
+            margin-bottom: 1rem;
+            animation: modalTitlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes modalTitlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .modal-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--disney-gray);
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .excuses-container {
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .excuse-item {
+            background: rgba(6, 99, 229, 0.1);
+            border-left: 3px solid var(--disney-blue-primary);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--disney-white);
+            line-height: 1.6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            animation: slideInExcuse 0.6s ease-out backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .excuse-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--disney-blue-bright), var(--disney-purple-accent));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .excuse-item:hover::before {
+            opacity: 1;
+        }
+
+        .excuse-item:nth-child(1) {
+            animation-delay: 0.2s;
+            border-left-color: var(--disney-blue-primary);
+        }
+
+        .excuse-item:nth-child(2) {
+            animation-delay: 0.4s;
+            border-left-color: var(--disney-blue-bright);
+        }
+
+        .excuse-item:nth-child(3) {
+            animation-delay: 0.6s;
+            border-left-color: var(--disney-purple-accent);
+        }
+
+        @keyframes slideInExcuse {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .modal-close {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--disney-blue-primary) 0%, var(--disney-purple-accent) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            box-shadow:
+                0 6px 20px rgba(6, 99, 229, 0.3),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-close:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 10px 30px rgba(6, 99, 229, 0.5),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Help Button */
+        .help-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--disney-blue-primary), var(--disney-blue-bright));
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(6, 99, 229, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .help-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(6, 99, 229, 0.6);
+        }
+
+        /* Help Menu */
+        .help-menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: linear-gradient(135deg, var(--disney-blue-deep) 0%, rgba(6, 99, 229, 0.15) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.9),
+                0 0 0 1px rgba(6, 99, 229, 0.4),
+                0 0 40px rgba(6, 99, 229, 0.2);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .help-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .help-menu::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+            backdrop-filter: blur(8px);
+        }
+
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(6, 99, 229, 0.3);
+        }
+
+        .help-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--disney-blue-bright);
+            margin: 0;
+        }
+
+        .help-close {
+            background: none;
+            border: none;
+            color: var(--disney-gray);
+            font-size: 2.5rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .help-close:hover {
+            background: rgba(6, 99, 229, 0.2);
+            color: var(--disney-white);
+        }
+
+        .help-content {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .help-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .help-section h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--disney-gray);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .help-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem 1rem;
+            background: rgba(6, 99, 229, 0.1);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .help-item:hover {
+            background: rgba(6, 99, 229, 0.15);
+        }
+
+        .help-item.dimmed {
+            opacity: 0.5;
+        }
+
+        .help-item.dimmed:hover {
+            opacity: 0.7;
+        }
+
+        .help-key {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--disney-blue-bright);
+            background: rgba(6, 99, 229, 0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .help-desc {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            color: var(--disney-white);
+        }
+
+        /* Hidden Easter Egg - Explosion Effect */
+        .explosion-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 69, 0, 0.8) 0%, rgba(4, 7, 20, 0.95) 50%, var(--disney-blue-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .explosion-overlay.show {
+            opacity: 1;
+            visibility: visible;
+            animation: explosionFlash 0.5s ease-out;
+        }
+
+        @keyframes explosionFlash {
+            0% { background: radial-gradient(circle at center, rgba(255, 255, 255, 1) 0%, rgba(255, 69, 0, 0.8) 20%, var(--disney-blue-dark) 100%); }
+            100% { background: radial-gradient(circle at center, rgba(255, 69, 0, 0.8) 0%, rgba(4, 7, 20, 0.95) 50%, var(--disney-blue-dark) 100%); }
+        }
+
+        .you-container {
+            text-align: center;
+            transform: scale(0.5) rotate(-10deg);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .explosion-overlay.show .you-container {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+
+        .you-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(5rem, 20vw, 15rem);
+            font-weight: 900;
+            color: var(--disney-white);
+            text-shadow:
+                0 0 40px rgba(255, 69, 0, 1),
+                0 0 80px rgba(255, 69, 0, 0.8),
+                0 0 120px rgba(255, 69, 0, 0.6),
+                0 10px 30px rgba(0, 0, 0, 0.8);
+            margin: 0;
+            letter-spacing: 0.1em;
+            animation: youPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes youPulse {
+            0%, 100% {
+                text-shadow:
+                    0 0 40px rgba(255, 69, 0, 1),
+                    0 0 80px rgba(255, 69, 0, 0.8),
+                    0 0 120px rgba(255, 69, 0, 0.6),
+                    0 10px 30px rgba(0, 0, 0, 0.8);
+                transform: scale(1);
+            }
+            50% {
+                text-shadow:
+                    0 0 50px rgba(255, 69, 0, 1),
+                    0 0 100px rgba(255, 69, 0, 0.9),
+                    0 0 150px rgba(255, 69, 0, 0.7),
+                    0 10px 30px rgba(0, 0, 0, 0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .pointing-hand {
+            font-size: clamp(4rem, 15vw, 10rem);
+            margin-bottom: 2rem;
+            animation: pointBounce 1s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        @keyframes pointBounce {
+            0%, 100% { transform: translateY(0) rotate(-10deg); }
+            50% { transform: translateY(-20px) rotate(-15deg); }
+        }
+
+        .you-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--disney-white);
+            margin-top: 2rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: subtitleFadeIn 0.8s ease-out 0.5s forwards;
+        }
+
+        @keyframes subtitleFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .explosion-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--disney-blue-bright);
+            border-radius: 50%;
+            animation: particleExplode 2s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes particleExplode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .explosion-close-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: var(--disney-gray);
+            opacity: 0;
+            animation: hintFadeIn 1s ease-out 1.5s forwards;
+        }
+
+        @keyframes hintFadeIn {
+            to {
+                opacity: 0.7;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container {
+                padding: 0.25rem;
+            }
+
+            h1 {
+                font-size: clamp(1.2rem, 5vw, 2rem);
+                margin-bottom: 0.2rem;
+            }
+
+            .subtitle {
+                font-size: clamp(0.6rem, 2vw, 0.9rem);
+                margin-bottom: 0.3rem;
+            }
+
+            .wheel-container {
+                width: min(80vw, 50vh, 400px);
+                height: min(80vw, 50vh, 400px);
+                margin: 0 auto 0.5rem;
+            }
+
+            .modal {
+                padding: 2rem 1.5rem;
+            }
+
+            .excuse-item {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+
+            .spin-button {
+                font-size: 1.1rem;
+                padding: 0.8rem 1.8rem;
+            }
+
+            .help-menu {
+                padding: 1.5rem;
+            }
+
+            .help-header h3 {
+                font-size: 1.5rem;
+            }
+
+            .help-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+
+            .help-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .help-key {
+                min-width: auto;
+            }
+
+            .you-text {
+                font-size: clamp(4rem, 15vw, 10rem);
+            }
+
+            .pointing-hand {
+                font-size: clamp(3rem, 12vw, 8rem);
+                margin-bottom: 1rem;
+            }
+
+            .you-subtitle {
+                font-size: clamp(1rem, 3vw, 2rem);
+                margin-top: 1rem;
+            }
+
+            .explosion-close-hint {
+                bottom: 2rem;
+                font-size: 0.85rem;
+                padding: 0 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WHO TO BLAME TODAY?</h1>
+        <p class="subtitle">Spin the Wheel of Accountability</p>
+
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <canvas id="wheelCanvas" class="wheel-canvas"></canvas>
+        </div>
+
+        <button class="spin-button" id="spinButton">
+            SPIN THE WHEEL
+        </button>
+    </div>
+
+    <!-- Popup Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-content">
+                <h2 class="modal-title" id="modalTitle">THE VERDICT</h2>
+                <p class="modal-subtitle">Today's Scapegoat</p>
+                <div class="excuses-container" id="excusesContainer">
+                    <!-- Excuses will be inserted here -->
+                </div>
+                <button class="modal-close" id="closeModal">Blame Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Menu -->
+    <div class="help-menu" id="helpMenu">
+        <div class="help-header">
+            <h3>Controls</h3>
+            <button class="help-close" onclick="toggleHelpMenu()">×</button>
+        </div>
+        <div class="help-content">
+            <div class="help-section">
+                <h4>Random Spin</h4>
+                <div class="help-item">
+                    <span class="help-key">Click Button</span>
+                    <span class="help-desc">Spin the wheel</span>
+                </div>
+                <div class="help-item">
+                    <span class="help-key">Touch Wheel</span>
+                    <span class="help-desc">Spin the wheel</span>
+                </div>
+                <div class="help-item">
+                    <span class="help-key">Space</span>
+                    <span class="help-desc">Spin the wheel</span>
+                </div>
+                <div class="help-item">
+                    <span class="help-key">Enter</span>
+                    <span class="help-desc">Spin the wheel</span>
+                </div>
+            </div>
+            <div class="help-section">
+                <h4>Blame Specific Team</h4>
+                <div class="help-item dimmed">
+                    <span class="help-key">I</span>
+                    <span class="help-desc">INFRA</span>
+                </div>
+                <div class="help-item dimmed">
+                    <span class="help-key">D</span>
+                    <span class="help-desc">DBAs</span>
+                </div>
+                <div class="help-item dimmed">
+                    <span class="help-key">Q</span>
+                    <span class="help-desc">QA</span>
+                </div>
+                <div class="help-item dimmed">
+                    <span class="help-key">V</span>
+                    <span class="help-desc">DEVS</span>
+                </div>
+                <div class="help-item dimmed">
+                    <span class="help-key">P</span>
+                    <span class="help-desc">PM</span>
+                </div>
+                <div class="help-item dimmed">
+                    <span class="help-key">C</span>
+                    <span class="help-desc">CLOUD</span>
+                </div>
+            </div>
+            <div class="help-section">
+                <h4>Other</h4>
+                <div class="help-item">
+                    <span class="help-key">?</span>
+                    <span class="help-desc">Toggle this menu</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Button -->
+    <button class="help-button" onclick="toggleHelpMenu()" title="Show controls (?)">?</button>
+
+    <!-- Hidden Easter Egg - Explosion Overlay -->
+    <div class="explosion-overlay" id="explosionOverlay">
+        <div class="explosion-particles" id="explosionParticles"></div>
+        <div class="you-container">
+            <div class="pointing-hand">👇</div>
+            <h1 class="you-text">YOU</h1>
+            <p class="you-subtitle">It was you all along!</p>
+        </div>
+        <div class="explosion-close-hint">Click anywhere or press any key to close</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const spinButton = document.getElementById('spinButton');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const excusesContainer = document.getElementById('excusesContainer');
+        const closeModal = document.getElementById('closeModal');
+
+        // Set canvas size
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const size = Math.min(container.clientWidth, container.clientHeight);
+            canvas.width = size;
+            canvas.height = size;
+            drawWheel();
+        }
+
+        const roles = [
+            {
+                name: 'INFRA',
+                color: '#0063e5',
+                key: 'I',
+                excuses: [
+                    'They took down prod for "emergency maintenance" right during the demo',
+                    'Their deployment pipeline is blocked because nobody approved the cert renewal',
+                    'Their staging environment is down, so now we have to test in production'
+                ]
+            },
+            {
+                name: 'DBAs',
+                color: '#1E5ACC',
+                key: 'D',
+                excuses: [
+                    'Their ETL job failed overnight, so all the dashboards show yesterday\'s data',
+                    'They changed the schema without telling anyone - now everything\'s broken',
+                    'Their database is locked because someone left a transaction open 6 hours ago'
+                ]
+            },
+            {
+                name: 'QA',
+                color: '#4BA3FF',
+                key: 'Q',
+                excuses: [
+                    'They found a "critical bug" 5 minutes before release and blocked everything',
+                    'Their test environment is broken, so nobody can verify any fixes',
+                    'They\'re still waiting for test data from 3 sprints ago and won\'t sign off'
+                ]
+            },
+            {
+                name: 'DEVS',
+                color: '#8A4FFF',
+                key: 'V',
+                excuses: [
+                    'Their code "works on their machine" but crashes everywhere else',
+                    'They built something nobody asked for instead of the actual feature',
+                    'They can\'t fix the bug because they don\'t understand their own code'
+                ]
+            },
+            {
+                name: 'PM',
+                color: '#5E3AA0',
+                key: 'P',
+                excuses: [
+                    'They scheduled a 4-hour retrospective during the release window',
+                    'They want to stop and re-estimate everything with a new pointing system',
+                    'They blocked everyone with a process change that needs "just a few questions" answered'
+                ]
+            },
+            {
+                name: 'CLOUD',
+                color: '#00A8E1',
+                key: 'C',
+                excuses: [
+                    'Their service mesh is having "intermittent connectivity issues" in production',
+                    'They hit the rate limit on the API Gateway and now everyone is blocked',
+                    'Their load balancer routed all traffic to one instance... which is now on fire'
+                ]
+            }
+        ];
+
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        function drawWheel() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = (canvas.width / 2) - 20;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const anglePerSegment = (2 * Math.PI) / roles.length;
+
+            roles.forEach((role, index) => {
+                const startAngle = index * anglePerSegment - Math.PI / 2;
+                const endAngle = startAngle + anglePerSegment;
+
+                // Draw segment
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+
+                // Gradient for each segment
+                const gradient = ctx.createLinearGradient(
+                    centerX + Math.cos(startAngle) * radius,
+                    centerY + Math.sin(startAngle) * radius,
+                    centerX + Math.cos(endAngle) * radius,
+                    centerY + Math.sin(endAngle) * radius
+                );
+                gradient.addColorStop(0, role.color);
+                gradient.addColorStop(1, role.color + 'CC');
+
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Segment border
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw text
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + anglePerSegment / 2);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = `bold ${canvas.width * 0.055}px 'Outfit', sans-serif`;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 2;
+
+                // Position text at 60% of radius
+                ctx.fillText(role.name, radius * 0.65, 0);
+                ctx.restore();
+            });
+
+            // Draw center circle with Disney+ blue theme
+            const centerRadius = radius * 0.18;
+
+            // Outer glow
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, centerRadius + 8, 0, 2 * Math.PI);
+            const glowGradient = ctx.createRadialGradient(
+                centerX, centerY, centerRadius,
+                centerX, centerY, centerRadius + 8
+            );
+            glowGradient.addColorStop(0, 'rgba(6, 99, 229, 0.5)');
+            glowGradient.addColorStop(1, 'rgba(6, 99, 229, 0)');
+            ctx.fillStyle = glowGradient;
+            ctx.fill();
+
+            // Main circle with radial gradient
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+            const centerGradient = ctx.createRadialGradient(
+                centerX, centerY - centerRadius * 0.3, centerRadius * 0.2,
+                centerX, centerY, centerRadius
+            );
+            centerGradient.addColorStop(0, '#4BA3FF');
+            centerGradient.addColorStop(0.6, '#0063e5');
+            centerGradient.addColorStop(1, '#1E5ACC');
+            ctx.fillStyle = centerGradient;
+            ctx.fill();
+
+            // Inner shadow
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Highlight shine
+            ctx.beginPath();
+            ctx.arc(centerX - centerRadius * 0.25, centerY - centerRadius * 0.25, centerRadius * 0.4, 0, 2 * Math.PI);
+            const shineGradient = ctx.createRadialGradient(
+                centerX - centerRadius * 0.25, centerY - centerRadius * 0.25, 0,
+                centerX - centerRadius * 0.25, centerY - centerRadius * 0.25, centerRadius * 0.4
+            );
+            shineGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+            shineGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = shineGradient;
+            ctx.fill();
+
+            // Draw question mark in center with Disney+ styling
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+            ctx.shadowBlur = 4;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            ctx.fillStyle = '#f9f9f9';
+            ctx.font = `bold ${radius * 0.22}px 'Montserrat', sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('?', centerX, centerY);
+
+            // Add blue glow to question mark
+            ctx.shadowColor = 'rgba(6, 99, 229, 0.6)';
+            ctx.shadowBlur = 8;
+            ctx.fillText('?', centerX, centerY);
+        }
+
+        function spinWheel(targetRoleIndex = null) {
+            if (isSpinning) return;
+
+            isSpinning = true;
+            spinButton.disabled = true;
+
+            // Random spins between 5-8 full rotations
+            const minSpins = 5;
+            const maxSpins = 8;
+            const spins = Math.random() * (maxSpins - minSpins) + minSpins;
+            const degrees = spins * 360;
+
+            let finalAngle;
+            if (targetRoleIndex !== null) {
+                // Calculate angle to land on specific role
+                const segmentAngle = 360 / roles.length;
+                const targetAngle = targetRoleIndex * segmentAngle + (segmentAngle / 2);
+                const normalizedTarget = (360 - targetAngle) % 360;
+                finalAngle = normalizedTarget;
+            } else {
+                // Random angle
+                finalAngle = Math.random() * 360;
+            }
+
+            const totalRotation = currentRotation + degrees + finalAngle;
+            canvas.style.transform = `rotate(${totalRotation}deg)`;
+
+            // Calculate winner
+            setTimeout(() => {
+                const normalizedRotation = (360 - (totalRotation % 360)) % 360;
+                const segmentAngle = 360 / roles.length;
+                const segmentIndex = Math.floor(normalizedRotation / segmentAngle);
+                const selectedRole = roles[segmentIndex];
+
+                showModal(selectedRole);
+
+                currentRotation = totalRotation;
+                isSpinning = false;
+                spinButton.disabled = false;
+            }, 6000);
+        }
+
+        function showModal(role) {
+            modalTitle.textContent = role.name;
+            modalTitle.style.color = role.color;
+
+            excusesContainer.innerHTML = '';
+            role.excuses.forEach(excuse => {
+                const excuseDiv = document.createElement('div');
+                excuseDiv.className = 'excuse-item';
+                excuseDiv.textContent = excuse;
+                excusesContainer.appendChild(excuseDiv);
+            });
+
+            modalOverlay.classList.add('show');
+        }
+
+        function hideModal() {
+            modalOverlay.classList.remove('show');
+        }
+
+        function toggleHelpMenu() {
+            const helpMenu = document.getElementById('helpMenu');
+            helpMenu.classList.toggle('show');
+        }
+
+        // Close help menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const helpMenu = document.getElementById('helpMenu');
+            const helpButton = document.querySelector('.help-button');
+            if (helpMenu.classList.contains('show') &&
+                !helpMenu.contains(e.target) &&
+                !helpButton.contains(e.target)) {
+                helpMenu.classList.remove('show');
+            }
+        });
+
+        // Hidden Easter Egg - Explosion Effect
+        function triggerExplosion() {
+            const explosionOverlay = document.getElementById('explosionOverlay');
+            const particlesContainer = document.getElementById('explosionParticles');
+
+            // Clear previous particles
+            particlesContainer.innerHTML = '';
+
+            // Create explosion particles
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                // Random position from center
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = 200 + Math.random() * 300;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                particle.style.animationDelay = `${Math.random() * 0.1}s`;
+
+                // Random colors
+                const colors = ['#0063e5', '#4BA3FF', '#8A4FFF', '#FF4500', '#FFD700'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                particlesContainer.appendChild(particle);
+            }
+
+            // Show overlay
+            explosionOverlay.classList.add('show');
+
+            // Play explosion sound effect (if you want to add audio later)
+            // new Audio('explosion.mp3').play();
+        }
+
+        function closeExplosion() {
+            const explosionOverlay = document.getElementById('explosionOverlay');
+            explosionOverlay.classList.remove('show');
+        }
+
+        // Close explosion on click
+        document.getElementById('explosionOverlay').addEventListener('click', closeExplosion);
+
+        // Event listeners
+        spinButton.addEventListener('click', () => spinWheel());
+        closeModal.addEventListener('click', hideModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) hideModal();
+        });
+
+        // Touch event for canvas
+        canvas.addEventListener('click', () => spinWheel());
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            spinWheel();
+        });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            // Check if explosion overlay is showing - close it on any key
+            const explosionOverlay = document.getElementById('explosionOverlay');
+            if (explosionOverlay && explosionOverlay.classList.contains('show')) {
+                e.preventDefault();
+                closeExplosion();
+                return;
+            }
+
+            // Hidden Easter Egg - Press 8 for explosion
+            if (e.key === '8') {
+                e.preventDefault();
+                triggerExplosion();
+                return;
+            }
+
+            // Space bar or Enter to spin randomly
+            if (e.code === 'Space' || e.key === ' ' || e.code === 'Enter' || e.key === 'Enter') {
+                e.preventDefault();
+                if (!isSpinning) spinWheel();
+                return;
+            }
+
+            // Help menu toggle
+            if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+                e.preventDefault();
+                toggleHelpMenu();
+                return;
+            }
+
+            // Team-specific keys
+            const key = e.key.toUpperCase();
+            const roleIndex = roles.findIndex(role => role.key === key);
+            if (roleIndex !== -1 && !isSpinning) {
+                e.preventDefault();
+                spinWheel(roleIndex);
+            }
+        });
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+    </script>
+</body>
+</html>
