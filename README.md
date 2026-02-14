@@ -1,123 +1,97 @@
-# Who to Blame Today? 🎯
+# Accountability Roulette
 
-A fun, retro game show-style wheel of fortune to randomly select which team to "blame" for the day. Built as a lightweight, containerized web application for EKS deployment.
+A single-page web application that randomly selects team roles using an interactive spinning wheel. Built with vanilla HTML/CSS/JavaScript and packaged in a lightweight nginx Docker container for Kubernetes deployment.
 
 ## Features
 
-- 🎨 Bold retro game show aesthetic with dramatic animations
-- 🎪 Smooth spinning wheel with physics-based deceleration
-- 📱 Fully responsive design
-- 🚀 Lightweight Docker container (~10MB)
-- ☸️ Ready for Kubernetes/EKS deployment
+- Interactive canvas-based spinning wheel
+- Keyboard shortcuts and touch support
+- Responsive design for all devices
+- Lightweight Docker container (~10MB)
+- Google Analytics integration
+- PWA-ready with web manifest
 
-## Roles on the Wheel
+## Quick Start
 
-- Infra
-- Data Development
-- QA
-- Product
-- Scrum Master
-- Cloud
+### Local Development
 
-## Local Development
+Open `index.html` in a web browser. No build process required.
 
-Simply open `index.html` in a web browser to run locally.
-
-## Docker Deployment
-
-### Build the Docker Image
+### Docker
 
 ```bash
 docker build -t wheel-of-blame:latest .
-```
-
-### Run Locally with Docker
-
-```bash
 docker run -p 8080:80 wheel-of-blame:latest
 ```
 
-Then visit `http://localhost:8080` in your browser.
+Visit http://localhost:8080
 
-### Push to Container Registry (ECR Example)
+### GitHub Pages
 
-```bash
-# Authenticate with ECR
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.us-east-1.amazonaws.com
+The site is deployed at: https://lucianoadonis.github.io/wheel-of-excuses/
 
-# Tag the image
-docker tag wheel-of-blame:latest <account-id>.dkr.ecr.us-east-1.amazonaws.com/wheel-of-blame:latest
+## Deployment
 
-# Push to ECR
-docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/wheel-of-blame:latest
-```
-
-## Kubernetes/EKS Deployment
-
-### Prerequisites
-
-- An EKS cluster configured and running
-- `kubectl` configured to connect to your cluster
-- Docker image pushed to ECR or another container registry
-
-### Deploy to EKS
-
-1. Update the image reference in `kubernetes-deployment.yaml` with your ECR image URL:
-
-```yaml
-image: <account-id>.dkr.ecr.us-east-1.amazonaws.com/wheel-of-blame:latest
-```
-
-2. Apply the Kubernetes manifests:
+### Push to ECR
 
 ```bash
-kubectl apply -f kubernetes-deployment.yaml
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
+docker tag wheel-of-blame:latest <account>.dkr.ecr.us-east-1.amazonaws.com/wheel-of-blame:latest
+docker push <account>.dkr.ecr.us-east-1.amazonaws.com/wheel-of-blame:latest
 ```
 
-3. Get the LoadBalancer URL:
+### Deploy to Kubernetes
 
 ```bash
+# Update image reference in infra/kubernetes-deployment.yaml
+kubectl apply -f infra/kubernetes-deployment.yaml
 kubectl get service wheel-of-blame-service
 ```
 
-Wait a few minutes for the LoadBalancer to provision, then access the app using the `EXTERNAL-IP` address.
+## Controls
 
-### Verify Deployment
-
-```bash
-# Check pods are running
-kubectl get pods -l app=wheel-of-blame
-
-# Check service status
-kubectl get svc wheel-of-blame-service
-
-# View logs
-kubectl logs -l app=wheel-of-blame
-```
-
-## Architecture
-
-- **Frontend**: Pure HTML/CSS/JavaScript (no frameworks)
-- **Web Server**: Nginx (Alpine Linux)
-- **Container Size**: ~10MB
-- **Resources**: 64Mi RAM / 100m CPU (request), 128Mi RAM / 200m CPU (limit)
+- **Click** or **Touch** wheel to spin
+- **Space** or **Enter** for random spin
+- **Letter keys** (I/D/Q/V/P/C) to select specific team
+- **?** to show/hide help menu
+- **8** for hidden easter egg
 
 ## Customization
 
-To modify the roles on the wheel, edit the `roles` array in the `<script>` section of `index.html`:
+Edit the `roles` array in `index.html` (around line 998):
 
 ```javascript
 const roles = [
-    'Your Role 1',
-    'Your Role 2',
-    'Your Role 3',
-    'Your Role 4',
-    'Your Role 5',
-    'Your Role 6'
+    {
+        name: 'INFRA',
+        color: '#0063e5',
+        key: 'I',
+        excuses: ['...', '...', '...']
+    },
+    // ... 5 more roles
 ];
 ```
 
-Note: The wheel is designed for exactly 6 segments. Adding more or fewer roles will require adjusting the CSS segment rotations.
+Note: The wheel requires exactly 6 segments. Changing this requires updating canvas math.
+
+## Architecture
+
+- Single-file HTML/CSS/JavaScript application (no build process)
+- Vanilla JavaScript (no frameworks)
+- Canvas API for wheel rendering
+- Nginx Alpine container
+- Container size: ~10MB
+- Resource limits: 64Mi RAM / 100m CPU (request), 128Mi / 200m CPU (limit)
+
+## Tech Stack
+
+- HTML5 Canvas
+- CSS Variables for theming
+- Vanilla JavaScript (ES6+)
+- Google Fonts (Montserrat)
+- Google Analytics (GA4)
+- Docker + nginx:alpine
+- Kubernetes ready
 
 ## License
 

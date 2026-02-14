@@ -172,7 +172,7 @@
             font-weight: 500;
             color: var(--brand-gray);
             letter-spacing: 0.15em;
-            margin-bottom: 0.5rem;
+            margin-bottom: 2.5rem;
             text-transform: uppercase;
         }
 
@@ -180,7 +180,7 @@
             position: relative;
             width: min(70vw, 55vh, 500px);
             height: min(70vw, 55vh, 500px);
-            margin: 0 auto 1rem;
+            margin: 0 auto 1.5rem;
         }
 
         /* Pointer/Arrow */
@@ -642,7 +642,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 69, 0, 0.8) 0%, rgba(4, 7, 20, 0.95) 50%, var(--brand-dark) 100%);
+            background: radial-gradient(circle at center, rgba(255, 69, 0, 0.9) 0%, rgba(4, 7, 20, 0.98) 50%, rgba(4, 7, 20, 0.98) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -659,8 +659,8 @@
         }
 
         @keyframes explosionFlash {
-            0% { background: radial-gradient(circle at center, rgba(255, 255, 255, 1) 0%, rgba(255, 69, 0, 0.8) 20%, var(--brand-dark) 100%); }
-            100% { background: radial-gradient(circle at center, rgba(255, 69, 0, 0.8) 0%, rgba(4, 7, 20, 0.95) 50%, var(--brand-dark) 100%); }
+            0% { background: radial-gradient(circle at center, rgba(255, 255, 255, 1) 0%, rgba(255, 69, 0, 0.9) 20%, rgba(4, 7, 20, 0.98) 100%); }
+            100% { background: radial-gradient(circle at center, rgba(255, 69, 0, 0.9) 0%, rgba(4, 7, 20, 0.98) 50%, rgba(4, 7, 20, 0.98) 100%); }
         }
 
         .you-container {
@@ -770,11 +770,11 @@
 
         .explosion-close-hint {
             position: absolute;
-            bottom: 3rem;
+            bottom: 1rem;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--brand-gray);
             opacity: 0;
             animation: hintFadeIn 1s ease-out 1.5s forwards;
@@ -782,7 +782,7 @@
 
         @keyframes hintFadeIn {
             to {
-                opacity: 0.7;
+                opacity: 0.3;
             }
         }
 
@@ -799,13 +799,13 @@
 
             .subtitle {
                 font-size: clamp(0.6rem, 2vw, 0.9rem);
-                margin-bottom: 0.3rem;
+                margin-bottom: 2rem;
             }
 
             .wheel-container {
                 width: min(80vw, 50vh, 400px);
                 height: min(80vw, 50vh, 400px);
-                margin: 0 auto 0.5rem;
+                margin: 0 auto 1rem;
             }
 
             .modal {
@@ -863,8 +863,8 @@
             }
 
             .explosion-close-hint {
-                bottom: 2rem;
-                font-size: 0.85rem;
+                bottom: 0.5rem;
+                font-size: 0.75rem;
                 padding: 0 1rem;
                 text-align: center;
             }
@@ -874,7 +874,7 @@
 <body>
     <div class="container">
         <h1>WHO TO BLAME TODAY?</h1>
-        <p class="subtitle">Spin the Wheel of Accountability</p>
+        <p class="subtitle">Wheel of Blame</p>
 
         <div class="wheel-container">
             <div class="pointer"></div>
