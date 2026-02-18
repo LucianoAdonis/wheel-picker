@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Picker</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --brand-dark: #040714;
+            --brand-deep: #0E0B14;
+            --brand-primary: #0063e5;
+            --brand-bright: #4BA3FF;
+            --brand-purple: #8A4FFF;
+            --brand-white: #f9f9f9;
+            --brand-gray: #cacaca;
+            --brand-gray-dark: #6c6c6c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--brand-dark);
+            background-image:
+                radial-gradient(circle at 50% 50%, rgba(6, 99, 229, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 79, 255, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(1px 1px at 25% 45%, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(2px 2px at 50% 70%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.25), transparent),
+                radial-gradient(1px 1px at 85% 60%, rgba(255, 255, 255, 0.15), transparent),
+                radial-gradient(1px 1px at 40% 10%, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(2px 2px at 90% 85%, rgba(255, 255, 255, 0.35), transparent),
+                radial-gradient(1px 1px at 15% 75%, rgba(255, 255, 255, 0.25), transparent);
+            background-size: 300px 300px, 400px 400px, 350px 350px, 450px 450px, 380px 380px, 420px 420px, 360px 360px, 390px 390px;
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 200px 50px, 100px 200px, 250px 150px, 50px 300px;
+            animation: starfieldTwinkle 60s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes starfieldTwinkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.4; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 0.5rem;
+            max-width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 0.5rem;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 700;
+            color: var(--brand-white);
+            text-shadow:
+                0 0 15px rgba(6, 99, 229, 0.5),
+                0 0 30px rgba(6, 99, 229, 0.3),
+                0 4px 12px rgba(0, 0, 0, 0.6);
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.03em;
+            animation: titlePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% {
+                text-shadow:
+                    0 0 15px rgba(6, 99, 229, 0.5),
+                    0 0 30px rgba(6, 99, 229, 0.3),
+                    0 4px 12px rgba(0, 0, 0, 0.6);
+            }
+            50% {
+                text-shadow:
+                    0 0 20px rgba(6, 99, 229, 0.7),
+                    0 0 40px rgba(6, 99, 229, 0.4),
+                    0 4px 12px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.7rem, 2vw, 1rem);
+            font-weight: 500;
+            color: var(--brand-gray);
+            letter-spacing: 0.15em;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Setup Screen */
+        .setup-screen {
+            background: linear-gradient(135deg, var(--brand-deep) 0%, rgba(6, 99, 229, 0.15) 100%);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            max-width: 600px;
+            width: 90%;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.9),
+                0 0 0 1px rgba(6, 99, 229, 0.4),
+                0 0 40px rgba(6, 99, 229, 0.2);
+        }
+
+        .setup-screen h2 {
+            font-size: 2rem;
+            color: var(--brand-bright);
+            margin-bottom: 1rem;
+        }
+
+        .setup-screen p {
+            color: var(--brand-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--brand-white);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .input-group textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background: rgba(6, 99, 229, 0.1);
+            border: 1px solid rgba(6, 99, 229, 0.3);
+            border-radius: 8px;
+            color: var(--brand-white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(6, 99, 229, 0.2);
+        }
+
+        .button-primary {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-bright) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow:
+                0 8px 24px rgba(6, 99, 229, 0.4),
+                0 0 30px rgba(6, 99, 229, 0.25);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 100%;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 32px rgba(6, 99, 229, 0.6),
+                0 0 50px rgba(6, 99, 229, 0.4);
+        }
+
+        .button-secondary {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            background: rgba(6, 99, 229, 0.2);
+            color: var(--brand-white);
+            border: 1px solid rgba(6, 99, 229, 0.4);
+            border-radius: 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .button-secondary:hover {
+            background: rgba(6, 99, 229, 0.3);
+            border-color: var(--brand-primary);
+        }
+
+        /* Wheel Screen */
+        .wheel-screen {
+            display: none;
+        }
+
+        .wheel-screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: min(70vw, 55vh, 500px);
+            height: min(70vw, 55vh, 500px);
+            margin: 0 auto 1.5rem;
+        }
+
+        .pointer {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 50px solid var(--brand-primary);
+            filter: drop-shadow(0 4px 8px rgba(6, 99, 229, 0.6))
+                    drop-shadow(0 0 15px rgba(6, 99, 229, 0.4));
+            z-index: 10;
+            animation: pointerBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes pointerBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-6px); }
+        }
+
+        .pointer::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--brand-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(6, 99, 229, 0.8);
+        }
+
+        .wheel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 8px rgba(6, 99, 229, 0.2),
+                0 0 40px rgba(6, 99, 229, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.9);
+            transition: transform 6s cubic-bezier(0.17, 0.67, 0.2, 0.98);
+            cursor: pointer;
+        }
+
+        .spin-button {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 0.9rem 2.5rem;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-bright) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow:
+                0 8px 24px rgba(6, 99, 229, 0.4),
+                0 0 30px rgba(6, 99, 229, 0.25);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spin-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 32px rgba(6, 99, 229, 0.6),
+                0 0 50px rgba(6, 99, 229, 0.4);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, var(--brand-deep) 0%, rgba(6, 99, 229, 0.15) 100%);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.9),
+                0 0 0 1px rgba(6, 99, 229, 0.4),
+                0 0 40px rgba(6, 99, 229, 0.2);
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            color: var(--brand-bright);
+            text-shadow:
+                0 0 20px rgba(75, 163, 255, 0.5),
+                0 4px 12px rgba(0, 0, 0, 0.6);
+            margin-bottom: 1rem;
+            animation: modalTitlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes modalTitlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .modal-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--brand-gray);
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .modal-close {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-purple) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            box-shadow: 0 6px 20px rgba(6, 99, 229, 0.3);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(6, 99, 229, 0.5);
+        }
+
+        .trophy {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: trophyBounce 1s ease-in-out infinite;
+            color: var(--brand-bright);
+        }
+
+        @keyframes trophyBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .url-display {
+            background: rgba(6, 99, 229, 0.1);
+            border: 1px solid rgba(6, 99, 229, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .url-display input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--brand-white);
+            font-family: 'Montserrat', monospace;
+            font-size: 0.9rem;
+        }
+
+        .url-display input:focus {
+            outline: none;
+        }
+
+        .copy-button {
+            padding: 0.5rem 1rem;
+            background: var(--brand-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: var(--brand-bright);
+        }
+
+        .copy-button.copied {
+            background: #30D158;
+        }
+
+        @media (max-width: 640px) {
+            .setup-screen {
+                padding: 2rem 1.5rem;
+            }
+
+            .wheel-container {
+                width: min(80vw, 50vh, 400px);
+                height: min(80vw, 50vh, 400px);
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .button-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Setup Screen -->
+        <div class="setup-screen" id="setupScreen">
+            <h2><i class="fa-solid fa-ticket"></i> Ticket Picker Setup</h2>
+            <p>Enter the names of team members (one per line) who will be assigned tickets.</p>
+
+            <div class="input-group">
+                <label for="namesInput">Team Members:</label>
+                <textarea
+                    id="namesInput"
+                    placeholder="Alice&#10;Bob&#10;Charlie&#10;Diana&#10;Ethan"
+                ></textarea>
+            </div>
+
+            <button class="button-primary" onclick="startPicker()">Create Wheel</button>
+            <button class="button-secondary" id="cancelButton" onclick="cancelReconfigure()" style="display: none; width: 100%; margin-top: 1rem;">Cancel</button>
+        </div>
+
+        <!-- Wheel Screen -->
+        <div class="wheel-screen" id="wheelScreen">
+            <h1>TICKET PICKER</h1>
+            <p class="subtitle">Who Gets the Next Ticket?</p>
+
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <canvas id="wheelCanvas" class="wheel-canvas"></canvas>
+            </div>
+
+            <button class="spin-button" id="spinButton">SPIN THE WHEEL</button>
+
+            <div class="action-buttons">
+                <button class="button-secondary" onclick="copyURL()"><i class="fa-solid fa-link"></i> Copy Link</button>
+                <button class="button-secondary" onclick="reconfigure()"><i class="fa-solid fa-gear"></i> Reconfigure</button>
+            </div>
+
+            <div class="url-display">
+                <input type="text" id="shareURL" readonly onclick="this.select()">
+                <button class="copy-button" id="copyBtn" onclick="copyURL()">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Winner Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="trophy"><i class="fa-solid fa-trophy"></i></div>
+            <h2 class="modal-title" id="modalTitle">WINNER</h2>
+            <p class="modal-subtitle">Gets the ticket!</p>
+            <button class="modal-close" id="closeModal">Spin Again</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        const spinButton = document.getElementById('spinButton');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
+
+        let people = [];
+        let currentRotation = 0;
+        let isSpinning = false;
+        let previousPeople = []; // Store previous config when reconfiguring
+
+        // Color palette for segments
+        const colors = [
+            '#0063e5', '#1E5ACC', '#4BA3FF', '#8A4FFF',
+            '#5E3AA0', '#00A8E1', '#30D158', '#FF9500',
+            '#FF2D55', '#FFD60A', '#BF5AF2', '#32ADE6'
+        ];
+
+        // Check URL parameters on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const namesParam = urlParams.get('names');
+
+            if (namesParam) {
+                const names = namesParam.split(',').map(n => n.trim()).filter(n => n);
+                if (names.length > 0) {
+                    people = names.map((name, index) => ({
+                        name: name,
+                        color: colors[index % colors.length],
+                        key: name.charAt(0).toUpperCase()
+                    }));
+                    showWheel();
+                }
+            }
+        });
+
+        function startPicker() {
+            const input = document.getElementById('namesInput').value;
+            const names = input.split('\n').map(n => n.trim()).filter(n => n);
+
+            if (names.length === 0) {
+                alert('Please enter at least one name!');
+                return;
+            }
+
+            people = names.map((name, index) => ({
+                name: name,
+                color: colors[index % colors.length],
+                key: name.charAt(0).toUpperCase()
+            }));
+
+            // Update URL
+            const url = new URL(window.location.href);
+            url.searchParams.set('names', names.join(','));
+            window.history.pushState({}, '', url);
+
+            showWheel();
+        }
+
+        function showWheel() {
+            document.getElementById('setupScreen').style.display = 'none';
+            document.getElementById('wheelScreen').classList.add('active');
+
+            // Hide cancel button when showing wheel
+            document.getElementById('cancelButton').style.display = 'none';
+
+            // Update share URL
+            document.getElementById('shareURL').value = window.location.href;
+
+            resizeCanvas();
+            setupEventListeners();
+        }
+
+        function reconfigure() {
+            // Store current config in case user wants to cancel
+            previousPeople = [...people];
+
+            document.getElementById('setupScreen').style.display = 'block';
+            document.getElementById('wheelScreen').classList.remove('active');
+
+            // Show cancel button since we have a previous config
+            document.getElementById('cancelButton').style.display = 'block';
+        }
+
+        function cancelReconfigure() {
+            // Only cancel if we have a previous configuration
+            if (previousPeople.length > 0) {
+                people = [...previousPeople];
+                showWheel();
+            }
+        }
+
+        function copyURL() {
+            const input = document.getElementById('shareURL');
+            const btn = document.getElementById('copyBtn');
+
+            input.select();
+            document.execCommand('copy');
+
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+
+            setTimeout(() => {
+                btn.textContent = 'Copy';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            const container = canvas.parentElement;
+            const size = Math.min(container.clientWidth, container.clientHeight);
+            canvas.width = size;
+            canvas.height = size;
+            drawWheel();
+        }
+
+        function drawWheel() {
+            if (!ctx || people.length === 0) return;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = (canvas.width / 2) - 20;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const anglePerSegment = (2 * Math.PI) / people.length;
+
+            people.forEach((person, index) => {
+                const startAngle = index * anglePerSegment - Math.PI / 2;
+                const endAngle = startAngle + anglePerSegment;
+
+                // Draw segment
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+
+                // Gradient
+                const gradient = ctx.createLinearGradient(
+                    centerX + Math.cos(startAngle) * radius,
+                    centerY + Math.sin(startAngle) * radius,
+                    centerX + Math.cos(endAngle) * radius,
+                    centerY + Math.sin(endAngle) * radius
+                );
+                gradient.addColorStop(0, person.color);
+                gradient.addColorStop(1, person.color + 'CC');
+
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Border
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw text
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + anglePerSegment / 2);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = `bold ${canvas.width * 0.05}px 'Montserrat', sans-serif`;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                ctx.shadowBlur = 8;
+
+                ctx.fillText(person.name, radius * 0.65, 0);
+                ctx.restore();
+            });
+
+            // Center circle
+            const centerRadius = radius * 0.18;
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, centerRadius + 8, 0, 2 * Math.PI);
+            const glowGradient = ctx.createRadialGradient(
+                centerX, centerY, centerRadius,
+                centerX, centerY, centerRadius + 8
+            );
+            glowGradient.addColorStop(0, 'rgba(6, 99, 229, 0.5)');
+            glowGradient.addColorStop(1, 'rgba(6, 99, 229, 0)');
+            ctx.fillStyle = glowGradient;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+            const centerGradient = ctx.createRadialGradient(
+                centerX, centerY - centerRadius * 0.3, centerRadius * 0.2,
+                centerX, centerY, centerRadius
+            );
+            centerGradient.addColorStop(0, '#4BA3FF');
+            centerGradient.addColorStop(0.6, '#0063e5');
+            centerGradient.addColorStop(1, '#1E5ACC');
+            ctx.fillStyle = centerGradient;
+            ctx.fill();
+
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+            ctx.shadowBlur = 4;
+            ctx.fillStyle = '#f9f9f9';
+            ctx.font = `900 ${radius * 0.25}px "Font Awesome 6 Free"`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('\uf145', centerX, centerY);
+        }
+
+        function spinWheel(targetIndex = null) {
+            if (isSpinning) return;
+
+            isSpinning = true;
+            spinButton.disabled = true;
+
+            const minSpins = 5;
+            const maxSpins = 8;
+            const spins = Math.random() * (maxSpins - minSpins) + minSpins;
+            const degrees = spins * 360;
+
+            let finalAngle;
+            if (targetIndex !== null) {
+                const segmentAngle = 360 / people.length;
+                const targetFinalRotation = 360 - (targetIndex * segmentAngle + segmentAngle / 2);
+                const totalAfterSpins = (currentRotation + degrees) % 360;
+                finalAngle = (targetFinalRotation - totalAfterSpins + 360) % 360;
+            } else {
+                finalAngle = Math.random() * 360;
+            }
+
+            const totalRotation = currentRotation + degrees + finalAngle;
+            canvas.style.transform = `rotate(${totalRotation}deg)`;
+
+            setTimeout(() => {
+                const normalizedRotation = (360 - (totalRotation % 360)) % 360;
+                const segmentAngle = 360 / people.length;
+                const segmentIndex = Math.floor(normalizedRotation / segmentAngle);
+                const selectedPerson = people[segmentIndex];
+
+                showModal(selectedPerson);
+
+                currentRotation = totalRotation;
+                isSpinning = false;
+                spinButton.disabled = false;
+            }, 6000);
+        }
+
+        function showModal(person) {
+            modalTitle.textContent = person.name;
+            modalTitle.style.color = person.color;
+            modalOverlay.classList.add('show');
+        }
+
+        function hideModal() {
+            modalOverlay.classList.remove('show');
+        }
+
+        function setupEventListeners() {
+            spinButton.addEventListener('click', () => spinWheel());
+            closeModal.addEventListener('click', hideModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) hideModal();
+            });
+
+            canvas.addEventListener('click', () => spinWheel());
+
+            window.addEventListener('resize', resizeCanvas);
+        }
+
+        // Global keyboard controls (always active)
+        document.addEventListener('keydown', (e) => {
+            // Ignore keyboard shortcuts when typing in input/textarea
+            const isTyping = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+
+            // ESC key handling
+            if (e.key === 'Escape') {
+                // Priority 1: Close modal if it's open
+                if (modalOverlay.classList.contains('show')) {
+                    hideModal();
+                    return;
+                }
+
+                // Priority 2: Cancel reconfigure and go back to wheel
+                const setupScreen = document.getElementById('setupScreen');
+                const wheelScreen = document.getElementById('wheelScreen');
+                if (setupScreen.style.display === 'block' && previousPeople.length > 0) {
+                    cancelReconfigure();
+                    return;
+                }
+                return;
+            }
+
+            // Only process other shortcuts if wheel is active
+            const wheelScreen = document.getElementById('wheelScreen');
+            if (!wheelScreen.classList.contains('active')) return;
+
+            if (e.code === 'Space' || e.key === 'Enter') {
+                if (isTyping) return; // Allow normal behavior in input fields
+                e.preventDefault();
+                if (!isSpinning) spinWheel();
+                return;
+            }
+
+            // Letter keys for direct selection
+            if (isTyping) return; // Allow normal typing
+            const key = e.key.toUpperCase();
+            const personIndex = people.findIndex(p => p.key === key);
+            if (personIndex !== -1 && !isSpinning) {
+                e.preventDefault();
+                spinWheel(personIndex);
+            }
+        });
+    </script>
+</body>
+</html>
